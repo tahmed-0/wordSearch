@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<!--
+  COLLABORATORS:
+
+  Tufael Ahmed
+  CS 4712
+  Prof. North
+  
+-->
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Word Finder</title>
+
+<!-- Load any supplemental Javascript libraries here -->
+<script type="text/javascript" src="jquery-1.5.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jqu
+ery.min.js"></script>
+<script type="text/javascript" src="words-small.json"></script>
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript" src="words-large.json"></script>
+ 
+
+<script type="text/javascript" src="dictionary.js"></script>
+
+
+<script type="text/javascript">
+// <![CDATA[
+
+// This allows the Javascript code inside this block to only run when the page
+// has finished loading in the browser.
+$(document).ready(function() {
+  // instantiating the dictionary object
+  var dict = new Dictionary(words);
+
+
+  // declaring variables 
+  var stuffsTextarea = $("#stuffs");
+  var inputField = $("#field");
+  var clearButton = $("#btn");
+  var countDiv = $("#count");
+  
+  // retriving the words and populating the textarea
+  stuffsTextarea.val(dict.all().join("\n"));
+  
+
+  // searching the words
+  inputField.on("input", function() {
+    var inputText = $(this).val();
+    var searchResults = dict.search(inputText);
+    stuffsTextarea.val(searchResults.join("\n"));
+
+
+    if (searchResults.length === 0) {
+      countDiv.text("0 word containing: "+inputText);
+    } else {
+      countDiv.text(searchResults.length + " words total");
+    }
+  });
+
+  // clear the result
+  clearButton.on("click", function() {
+    inputField.val("");
+    
+    countDiv.text(""); 
+  });
+});
+
+
+// ]]>
+</script>
+
+<style type="text/css">
+
+/* Your CSS here */
+
+
+#item {
+  display: flex;
+  justify-content: left;
+  padding: 20px;
+ 
+}
+
+#count {
+  margin-left: 20px;
+}
+
+#stuffs {
+  width: 300px;
+  height: 500px;
+}
+
+#btn {
+  margin-left: 20px;
+  width: 50px;
+}
+
+#field {
+  width: 190px;
+  margin-left: 5px;
+}
+
+
+html {
+    background-color: #eee;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <div id = "item" class = "top">
+
+    <label>Find:</label>
+    <input id = "field" type="text"></input>
+
+    <button id = "btn" type="button">Clear</button>
+
+  </div>
+
+
+  <div id = "count">
+   
+
+  </div>
+
+  <div id = "item" class = "bottom">
+
+    <textarea id = "stuffs" class = "scroll"></textarea>
+
+  </div>
+
+</div>
+
+</body>
+</html>
